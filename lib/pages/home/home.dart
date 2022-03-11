@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unnecessary_null_comparison
+// ignore_for_file: avoid_print, unnecessary_null_comparison, prefer_final_fields, prefer_const_constructors
 
 import 'dart:convert';
 
@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -14,7 +15,16 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+class ItemModel {
+  String title;
+  IconData icon;
+  String path;
+  ItemModel(this.title, this.icon, this.path);
+}
+
 class _MyHomePageState extends State<MyHomePage> {
+  CustomPopupMenuController _controller = CustomPopupMenuController();
+  late List<ItemModel> menuItems;
   List merchantList = [];
 
   ///读取商户列表文件
@@ -37,19 +47,120 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  ///拖动组件的方法
+  void onReorder(int oldIndex, int newIndex) {
+    //第一个参数是旧的数据索引，第二个参数是拖动到位置的索引
+    setState(() {
+      //如果向下拖动，拖动到新位置的索引需要减一
+      if (oldIndex < newIndex) {
+        newIndex -= 1;
+      }
+      var item = merchantList.removeAt(oldIndex);
+      merchantList.insert(newIndex, item);
+      onSaveList(merchantList);
+      setState(() {
+        merchantList = merchantList;
+      });
+    });
+  }
+
+  ///保存本地列表
+  void onSaveList(List merchantList) async {
+    try {
+      ///获取本地列表,重新保存列表数据
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
+      final file = File(appDocPath + 'merchantList.json');
+      if (await file.exists()) {
+        file.delete();
+        file.writeAsString(jsonEncode(merchantList));
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Widget drawer = ListView(
     children: [
       ListTile(
         title: const Text('修改手势密码'),
-        onTap: () {},
+        onTap: () {
+          print('edit');
+        },
         dense: true,
         leading: const Icon(Icons.settings),
         minLeadingWidth: 20,
       ),
     ],
   );
+
+  Widget menuItem(e) {
+    String name = e['name'];
+    String no = e['no'];
+    String key = e['key'];
+    return SwipeActionCell(
+        backgroundColor: Colors.white,
+        key: ValueKey(no),
+        trailingActions: [
+          SwipeAction(
+            onTap: (CompletionHandler handler) async {
+              await handler(true);
+              int a = merchantList.indexWhere((item) => item['no'] == e['no']);
+              merchantList.removeAt(a);
+              onSaveList(merchantList);
+              setState(() {
+                merchantList = merchantList;
+              });
+            },
+            nestedAction: SwipeNestedAction(title: "确认删除"),
+            title: "删除",
+            color: Colors.red,
+          )
+        ],
+        child: InkWell(
+          onTap: () {
+            Navigator.of(context).pushNamed("add_code", arguments: key);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(25),
+            decoration: const BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+              color: Color.fromARGB(255, 214, 211, 211),
+              width: 0.8,
+            ))),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 80,
+                    child: Text(
+                      no,
+                      textAlign: TextAlign.start,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 150,
+                    child: Text(
+                      name,
+                      textAlign: TextAlign.end,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ]),
+          ),
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
+    menuItems = [
+      ItemModel('扫二维码', Icons.qr_code_scanner, 'qr_code_scan'),
+      ItemModel('输入密钥', Icons.keyboard, 'add_key'),
+    ];
     return Scaffold(
       backgroundColor: Colors.grey[100],
       drawer: SizedBox(
@@ -60,142 +171,156 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 180,
       ),
       appBar: AppBar(
+        // backgroundColor: Colors.white,
+        // shadowColor: Colors.white,
+        // iconTheme: IconThemeData(color: Colors.black),
         actions: [
-          PopupMenuButton(
-            padding: const EdgeInsets.all(0),
-            icon: const Icon(
-              Icons.add,
-              // color: Colors.blue,
-              // size: 25,
+          CustomPopupMenu(
+            child: Container(
+              child: Icon(Icons.add, color: Colors.white),
+              padding: EdgeInsets.all(20),
             ),
-            tooltip: '点击添加',
-            offset: const Offset(10.0, 10.0),
-            onSelected: (value) {
-              if (value == 'sr') {
-                Navigator.of(context).pushNamed(
-                  "add_key",
-                );
-              }
-              // else {
-              //   Navigator.of(context).pushNamed(
-              //     "qr_code_scan",
-              //   );
-              // }
-            },
-            itemBuilder: (context) {
-              return const [
-                PopupMenuItem(
-                  // child: Text("扫码"),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.qr_code_scanner,
-                      size: 20,
-                    ),
-                    title: Text(
-                      '扫描二维码',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    dense: true,
-                    contentPadding: EdgeInsets.all(0),
-                    minLeadingWidth: 16,
+            menuBuilder: () => ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: Container(
+                color: const Color(0xFF4C4C4C),
+                child: IntrinsicWidth(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: menuItems
+                        .map(
+                          (item) => GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              _controller.hideMenu();
+                              if (item.path == 'add_key') {
+                                Navigator.of(context).pushNamed('add_key');
+                              } else {
+                                print(item.path);
+                              }
+                            },
+                            child: Container(
+                              height: 40,
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    item.icon,
+                                    size: 15,
+                                    color: Colors.white,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      child: Text(
+                                        item.title,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
-                  value: "sm",
-                  // padding: EdgeInsets.all(0),
-                  height: 16,
                 ),
-                PopupMenuItem(
-                  // child: Text("输入设置密钥"),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.keyboard,
-                      size: 20,
-                    ),
-                    dense: true,
-                    title: Text(
-                      '输入设置密钥',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    contentPadding: EdgeInsets.all(0),
-                    minLeadingWidth: 16,
-                  ),
-                  value: "sr",
-                  // padding: EdgeInsets.all(0),
-                  height: 16,
-                ),
-              ];
-            },
-          )
+              ),
+            ),
+            pressType: PressType.singleClick,
+            verticalMargin: -10,
+            controller: _controller,
+          ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.only(top: 10),
-        itemCount: merchantList.length,
-        itemBuilder: (BuildContext context, int index) {
-          String name = merchantList[index]['name'];
-          String no = merchantList[index]['no'];
-          String key = merchantList[index]['key'];
-          return SwipeActionCell(
-              backgroundColor: Colors.white,
-              key: ValueKey(no),
-              trailingActions: [
-                SwipeAction(
-                  onTap: (CompletionHandler handler) async {
-                    merchantList.removeAt(index);
 
-                    ///获取本地列表,进行删除操作
-                    Directory appDocDir =
-                        await getApplicationDocumentsDirectory();
-                    String appDocPath = appDocDir.path;
-                    final file = File(appDocPath + 'merchantList.json');
-                    if (await file.exists()) {
-                      file.delete();
-                      file.writeAsString(jsonEncode(merchantList));
-                    }
-                    await handler(true);
-                  },
-                  nestedAction: SwipeNestedAction(title: "确认删除"),
-                  title: "删除",
-                  color: Colors.red,
-                )
-              ],
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).pushNamed("add_code", arguments: key);
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(25),
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                    color: Color.fromARGB(255, 214, 211, 211),
-                    width: 0.8,
-                  ))),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 80,
-                          child: Text(
-                            no,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 150,
-                          child: Text(
-                            name,
-                            textAlign: TextAlign.end,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ]),
-                ),
-              ));
-        },
+      ///可拖动列表组件
+      body: ReorderableListView(
+        children: merchantList.map((item) => menuItem(item)).toList(),
+        shrinkWrap: true,
+        onReorder: onReorder,
+        // physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(top: 10),
       ),
+      // body: ListView.builder(
+      //   physics: const BouncingScrollPhysics(),
+      //   padding: const EdgeInsets.only(top: 10),
+      //   itemCount: merchantList.length,
+      //   itemBuilder: (BuildContext context, int index) {
+      //     String name = merchantList[index]['name'];
+      //     String no = merchantList[index]['no'];
+      //     String key = merchantList[index]['key'];
+      //     return SwipeActionCell(
+      //         backgroundColor: Colors.white,
+      //         key: ValueKey(no),
+      //         trailingActions: [
+      //           SwipeAction(
+      //             onTap: (CompletionHandler handler) async {
+      //               await handler(true);
+      //               merchantList.removeAt(index);
+
+      //               ///获取本地列表,进行删除操作
+      //               Directory appDocDir =
+      //                   await getApplicationDocumentsDirectory();
+      //               String appDocPath = appDocDir.path;
+      //               final file = File(appDocPath + 'merchantList.json');
+      //               if (await file.exists()) {
+      //                 file.delete();
+      //                 file.writeAsString(jsonEncode(merchantList));
+      //               }
+      //               setState(() {
+      //                 merchantList = merchantList;
+      //               });
+      //             },
+      //             nestedAction: SwipeNestedAction(title: "确认删除"),
+      //             title: "删除",
+      //             color: Colors.red,
+      //           )
+      //         ],
+      //         child: InkWell(
+      //           onTap: () {
+      //             Navigator.of(context).pushNamed("add_code", arguments: key);
+      //           },
+      //           child: Container(
+      //             padding: const EdgeInsets.all(25),
+      //             decoration: const BoxDecoration(
+      //                 border: Border(
+      //                     bottom: BorderSide(
+      //               color: Color.fromARGB(255, 214, 211, 211),
+      //               width: 0.8,
+      //             ))),
+      //             child: Row(
+      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                 children: [
+      //                   SizedBox(
+      //                     width: 80,
+      //                     child: Text(
+      //                       no,
+      //                       textAlign: TextAlign.start,
+      //                       maxLines: 1,
+      //                       overflow: TextOverflow.ellipsis,
+      //                     ),
+      //                   ),
+      //                   SizedBox(
+      //                     width: 150,
+      //                     child: Text(
+      //                       name,
+      //                       textAlign: TextAlign.end,
+      //                       maxLines: 1,
+      //                       overflow: TextOverflow.ellipsis,
+      //                     ),
+      //                   ),
+      //                 ]),
+      //           ),
+      //         ));
+      //   },
+      // ),
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

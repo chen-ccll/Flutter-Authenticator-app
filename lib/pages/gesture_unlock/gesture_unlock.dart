@@ -24,11 +24,10 @@ class _GestureUnLockState extends State<GestureUnLock> {
                 final SharedPreferences prefs = await _prefs;
                 final _psd = prefs.getInt('psd');
                 if (_psd == 123456789) {
-                  // print('unlock');
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('解锁成功'),
-                    backgroundColor: Colors.green,
-                  ));
+                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  //   content: Text('解锁成功'),
+                  //   backgroundColor: Colors.green,
+                  // ));
                   Navigator.of(context).pushReplacementNamed('home');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -39,6 +38,12 @@ class _GestureUnLockState extends State<GestureUnLock> {
                 //print(_psd);
               },
               icon: const Icon(Icons.lock_open)),
+          IconButton(
+              onPressed: () async {
+                final SharedPreferences prefs = await _prefs;
+                prefs.setString('isSetPsd', 'false');
+              },
+              icon: const Icon(Icons.clear)),
         ],
       ),
     );

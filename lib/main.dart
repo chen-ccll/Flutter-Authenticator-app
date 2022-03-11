@@ -36,7 +36,7 @@ class RouterConfig {
         String? name = settings.name;
         final _isSetPsd = Global.isSetPsd;
         Widget widget = routerConfig[name]!(context);
-        if (_isSetPsd == null) {
+        if (_isSetPsd == 'false') {
           return routerConfig[setPsd]!(context);
         }
         return widget;
@@ -52,17 +52,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // navigatorKey: navigationKey,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const MyHomePage(title: ''),
-      // routes: {
-      //   'add_code': (context) => const AddCode(),
-      //   'home': (context) => const MyHomePage(title: ''),
-      //   'add_key': (context) => const AddKey(),
-      //   'qr_code_scan': (context) => const QRCodeScan(),
-      // },
       onGenerateRoute: RouterConfig.onGenerateRoute,
       initialRoute: RouterConfig.gestureUnlock,
     );

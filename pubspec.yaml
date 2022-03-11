@@ -17,6 +17,7 @@ dependencies:
   base32: ^2.1.1
   path_provider: ^2.0.9
   flutter_swipe_action_cell: ^2.2.0
+  custom_pop_up_menu: ^1.2.3+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -34,15 +34,6 @@ class _SetPsdState extends State<SetPsd> {
               Navigator.of(context).pushReplacementNamed('home');
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () async {
-              String fistCode = 'JBSWY3DPEHPK3PXP';
-              final base32Code = base32.encodeString(fistCode + '999999');
-              final _code = OTP.generateHOTPCodeString(base32Code, 7);
-              print(_code);
-            },
-          ),
         ],
       ),
       body: Container(

@@ -31,15 +31,16 @@ class _AddKeyState extends State<AddKey> {
         appBar: AppBar(title: const Text('输入用户密钥')),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(25),
           child: Form(
             key: _formKey, //设置globalKey，用于后面获取FormState
-            autovalidateMode: AutovalidateMode.onUserInteraction,
+            // autovalidateMode: AutovalidateMode.always,
             child: Column(
               children: <Widget>[
                 TextFormField(
                   focusNode: focusNode1, //关联focusNode1
                   // autofocus: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.text,
                   controller: _unameController,
                   decoration: const InputDecoration(
@@ -63,7 +64,7 @@ class _AddKeyState extends State<AddKey> {
                 ),
                 TextFormField(
                   focusNode: focusNode2, //关联focusNode1
-                  // autofocus: true,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.number,
                   controller: _unoController,
                   decoration: const InputDecoration(
@@ -87,6 +88,7 @@ class _AddKeyState extends State<AddKey> {
                   height: 20,
                 ),
                 TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   focusNode: focusNode3, //关联focusNode1
                   controller: _pwdController,
                   keyboardType: TextInputType.text,
@@ -121,19 +123,42 @@ class _AddKeyState extends State<AddKey> {
                             obj['key'] = _pwdController.text;
                             List merchantList = [];
                             merchantList.add(obj);
-                            Directory appDocDir =
-                                await getApplicationDocumentsDirectory();
-                            String appDocPath = appDocDir.path;
-                            final file = File(appDocPath + 'merchantList.json');
-                            if (await file.exists()) {
-                              final data = await file.readAsString();
-                              final List merList = jsonDecode(data);
-                              merList.add(obj);
-                              file.writeAsString(jsonEncode(merList));
-                            } else {
-                              file.writeAsString(jsonEncode(merchantList));
+                            try {
+                              ///获取本地列表，如果有那就加进去，没有就新建一个，写数据进去
+                              Directory appDocDir =
+                                  await getApplicationDocumentsDirectory();
+                              String appDocPath = appDocDir.path;
+                              final file =
+                                  File(appDocPath + 'merchantList.json');
+                              if (await file.exists()) {
+                                final data = await file.readAsString();
+                                final List merList = jsonDecode(data);
+                                int a = merList.indexWhere(
+                                    (item) => item['no'] == obj['no']);
+                                if (a == -1) {
+                                  merList.add(obj);
+                                  file.writeAsString(jsonEncode(merList));
+                                  Navigator.of(context)
+                                      .pushReplacementNamed("home");
+                                } else {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(const SnackBar(
+                                    content: Text('添加失败，商户号已重复'),
+                                    backgroundColor: Colors.red,
+                                  ));
+                                }
+                              } else {
+                                file.writeAsString(jsonEncode(merchantList));
+                                Navigator.of(context)
+                                    .pushReplacementNamed("home");
+                              }
+                            } catch (e) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('添加失败'),
+                                backgroundColor: Colors.red,
+                              ));
                             }
-                            Navigator.of(context).pushReplacementNamed("home");
                           }
                         },
                       )
