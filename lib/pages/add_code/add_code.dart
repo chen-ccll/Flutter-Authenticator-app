@@ -45,8 +45,8 @@ class _AddCodeState extends State<AddCode> {
     const fillColor = Color.fromRGBO(243, 246, 249, 0);
     const borderColor = Color.fromARGB(102, 24, 109, 189);
     final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 56,
+      width: 45,
+      height: 45,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19),
         border: Border.all(color: borderColor),
@@ -67,6 +67,7 @@ class _AddCodeState extends State<AddCode> {
             children: [
               if (!flag)
                 Pinput(
+                  // pinAnimationType: PinAnimationType.slide,
                   autofocus: true,
                   controller: pinController,
                   focusNode: focusNode,

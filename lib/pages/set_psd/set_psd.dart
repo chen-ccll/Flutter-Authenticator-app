@@ -4,8 +4,6 @@ import 'dart:async';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'package:otp/otp.dart';
-import 'package:base32/base32.dart';
 
 class SetPsd extends StatefulWidget {
   const SetPsd({
