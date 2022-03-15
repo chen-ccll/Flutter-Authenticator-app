@@ -7,6 +7,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -26,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   CustomPopupMenuController _controller = CustomPopupMenuController();
   late List<ItemModel> menuItems;
   List merchantList = [];
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   ///读取商户列表文件
   void loadLists() async {
@@ -171,9 +173,6 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 180,
       ),
       appBar: AppBar(
-        // backgroundColor: Colors.white,
-        // shadowColor: Colors.white,
-        // iconTheme: IconThemeData(color: Colors.black),
         actions: [
           CustomPopupMenu(
             child: Container(
@@ -191,12 +190,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         .map(
                           (item) => GestureDetector(
                             behavior: HitTestBehavior.translucent,
-                            onTap: () {
+                            onTap: () async {
                               _controller.hideMenu();
                               if (item.path == 'add_key') {
                                 Navigator.of(context).pushNamed('add_key');
                               } else {
-                                print(item.path);
+                                final SharedPreferences prefs = await _prefs;
+                                prefs.setString('isSetPsd', 'false');
                               }
                             },
                             child: Container(
@@ -248,80 +248,6 @@ class _MyHomePageState extends State<MyHomePage> {
         // physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.only(top: 10),
       ),
-      // body: ListView.builder(
-      //   physics: const BouncingScrollPhysics(),
-      //   padding: const EdgeInsets.only(top: 10),
-      //   itemCount: merchantList.length,
-      //   itemBuilder: (BuildContext context, int index) {
-      //     String name = merchantList[index]['name'];
-      //     String no = merchantList[index]['no'];
-      //     String key = merchantList[index]['key'];
-      //     return SwipeActionCell(
-      //         backgroundColor: Colors.white,
-      //         key: ValueKey(no),
-      //         trailingActions: [
-      //           SwipeAction(
-      //             onTap: (CompletionHandler handler) async {
-      //               await handler(true);
-      //               merchantList.removeAt(index);
-
-      //               ///获取本地列表,进行删除操作
-      //               Directory appDocDir =
-      //                   await getApplicationDocumentsDirectory();
-      //               String appDocPath = appDocDir.path;
-      //               final file = File(appDocPath + 'merchantList.json');
-      //               if (await file.exists()) {
-      //                 file.delete();
-      //                 file.writeAsString(jsonEncode(merchantList));
-      //               }
-      //               setState(() {
-      //                 merchantList = merchantList;
-      //               });
-      //             },
-      //             nestedAction: SwipeNestedAction(title: "确认删除"),
-      //             title: "删除",
-      //             color: Colors.red,
-      //           )
-      //         ],
-      //         child: InkWell(
-      //           onTap: () {
-      //             Navigator.of(context).pushNamed("add_code", arguments: key);
-      //           },
-      //           child: Container(
-      //             padding: const EdgeInsets.all(25),
-      //             decoration: const BoxDecoration(
-      //                 border: Border(
-      //                     bottom: BorderSide(
-      //               color: Color.fromARGB(255, 214, 211, 211),
-      //               width: 0.8,
-      //             ))),
-      //             child: Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: [
-      //                   SizedBox(
-      //                     width: 80,
-      //                     child: Text(
-      //                       no,
-      //                       textAlign: TextAlign.start,
-      //                       maxLines: 1,
-      //                       overflow: TextOverflow.ellipsis,
-      //                     ),
-      //                   ),
-      //                   SizedBox(
-      //                     width: 150,
-      //                     child: Text(
-      //                       name,
-      //                       textAlign: TextAlign.end,
-      //                       maxLines: 1,
-      //                       overflow: TextOverflow.ellipsis,
-      //                     ),
-      //                   ),
-      //                 ]),
-      //           ),
-      //         ));
-      //   },
-      // ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

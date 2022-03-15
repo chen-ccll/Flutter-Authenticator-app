@@ -14,5 +14,5 @@ class Global {
   static get isSetPsd => _prefs.getString('isSetPsd');
 
   ///获取本机设置的密码
-  static get psd => _prefs.getInt('psd');
+  static get psd => _prefs.getString('psd');
 }
