@@ -93,7 +93,7 @@ class _GestureUnLockState extends State<GestureUnLock> {
                     height: 40,
                   ),
                   Text(
-                    '画手势解锁',
+                    '手势解锁',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 22.0,

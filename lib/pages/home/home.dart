@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.of(context).pushNamed("add_code", arguments: key);
           },
           child: Container(
-            padding: const EdgeInsets.all(25),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
             decoration: const BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 80,
+                    width: 50,
                     child: Text(
                       no,
                       textAlign: TextAlign.start,
@@ -144,9 +144,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   SizedBox(
-                    width: 150,
+                    width: 230,
                     child: Text(
                       name,
+                      style: TextStyle(fontSize: 14),
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -206,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 children: <Widget>[
                                   Icon(
                                     item.icon,
-                                    size: 15,
+                                    size: 16,
                                     color: Colors.white,
                                   ),
                                   Expanded(
