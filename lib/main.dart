@@ -36,7 +36,7 @@ class RouterConfig {
         String? name = settings.name;
         final _isSetPsd = Global.isSetPsd;
         Widget widget = routerConfig[name]!(context);
-        if (_isSetPsd == 'false') {
+        if (_isSetPsd == null) {
           return routerConfig[setPsd]!(context);
         }
         return widget;

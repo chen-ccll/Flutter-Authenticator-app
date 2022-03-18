@@ -124,36 +124,37 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.of(context).pushNamed("add_code", arguments: key);
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+            padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
-              color: Color.fromARGB(255, 214, 211, 211),
+              color: Color.fromARGB(255, 168, 166, 166),
               width: 0.8,
             ))),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 50,
-                    child: Text(
-                      no,
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 230,
-                    child: Text(
-                      name,
-                      style: TextStyle(fontSize: 14),
-                      textAlign: TextAlign.end,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ]),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              SizedBox(
+                height: 20,
+                child: Text(
+                  no,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.blue),
+                  textAlign: TextAlign.start,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              SizedBox(
+                child: Text(
+                  name,
+                  // style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontWeight: FontWeight.w500),
+                  textAlign: TextAlign.start,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
           ),
         ));
   }
@@ -171,9 +172,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: drawer,
           backgroundColor: Colors.white,
         ),
-        width: 180,
+        // width: 180,
+        width: MediaQuery.of(context).size.width / 2,
       ),
       appBar: AppBar(
+        // shadowColor: Colors.white,
         actions: [
           CustomPopupMenu(
             child: Container(
@@ -201,8 +204,14 @@ class _MyHomePageState extends State<MyHomePage> {
                               }
                             },
                             child: Container(
-                              height: 40,
-                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              decoration: const BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                color: Colors.white,
+                                width: 0.3,
+                              ))),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
                               child: Row(
                                 children: <Widget>[
                                   Icon(
@@ -212,9 +221,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 10),
+                                      margin: EdgeInsets.only(left: 8),
+                                      // padding:
+                                      //     EdgeInsets.symmetric(vertical: 10),
                                       child: Text(
                                         item.title,
                                         style: TextStyle(

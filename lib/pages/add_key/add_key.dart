@@ -31,7 +31,7 @@ class _AddKeyState extends State<AddKey> {
         appBar: AppBar(title: const Text('输入用户密钥')),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: _formKey, //设置globalKey，用于后面获取FormState
             // autovalidateMode: AutovalidateMode.always,
@@ -136,7 +136,8 @@ class _AddKeyState extends State<AddKey> {
                                 int a = merList.indexWhere(
                                     (item) => item['no'] == obj['no']);
                                 if (a == -1) {
-                                  merList.add(obj);
+                                  // merList.add(obj);
+                                  merList.insert(0, obj);
                                   file.writeAsString(jsonEncode(merList));
                                   Navigator.of(context)
                                       .pushReplacementNamed("home");
