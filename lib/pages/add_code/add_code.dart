@@ -60,7 +60,7 @@ class _AddCodeState extends State<AddCode> {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(
@@ -130,7 +130,7 @@ class _AddCodeState extends State<AddCode> {
                 const Text(
                   '验证码:',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                 ),
               const SizedBox(
@@ -141,7 +141,7 @@ class _AddCodeState extends State<AddCode> {
                   code,
                   style: const TextStyle(
                     color: Colors.blue,
-                    fontSize: 30,
+                    fontSize: 40,
                   ),
                 ),
               const SizedBox(

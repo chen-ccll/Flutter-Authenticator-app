@@ -82,19 +82,24 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Widget drawer = ListView(
-    children: [
-      ListTile(
-        title: const Text('修改手势密码'),
-        onTap: () {
-          print('edit');
-        },
-        dense: true,
-        leading: const Icon(Icons.settings),
-        minLeadingWidth: 20,
-      ),
-    ],
-  );
+  Widget drawer(context) {
+    return ListView(
+      children: [
+        ListTile(
+          title: const Text('修改手势密码'),
+          onTap: () {
+            Navigator.of(context).pushNamed('edit_psd');
+          },
+          dense: true,
+          leading: const Icon(
+            Icons.settings,
+            color: Colors.blue,
+          ),
+          minLeadingWidth: 20,
+        ),
+      ],
+    );
+  }
 
   Widget menuItem(e) {
     String name = e['name'];
@@ -163,13 +168,13 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     menuItems = [
       ItemModel('扫二维码', Icons.qr_code_scanner, 'qr_code_scan'),
-      ItemModel('输入密钥', Icons.keyboard, 'add_key'),
+      ItemModel('输入密钥', Icons.create, 'add_key'),
     ];
     return Scaffold(
       backgroundColor: Colors.grey[100],
       drawer: SizedBox(
         child: Drawer(
-          child: drawer,
+          child: drawer(context),
           backgroundColor: Colors.white,
         ),
         // width: 180,

@@ -28,7 +28,7 @@ class _AddKeyState extends State<AddKey> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('输入用户密钥')),
+        appBar: AppBar(title: const Text('输入商户信息密钥')),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -113,7 +113,7 @@ class _AddKeyState extends State<AddKey> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ElevatedButton(
-                        child: const Text("添加"),
+                        child: const Text("保存"),
                         onPressed: () async {
                           if ((_formKey.currentState as FormState).validate()) {
                             //验证通过提交数据
