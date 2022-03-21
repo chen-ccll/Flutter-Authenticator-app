@@ -16,13 +16,29 @@ void main() {
 }
 
 class RouterConfig {
+  ///获取验证码
+
   static String addCode = 'add_code';
+
+  ///首页
   static String home = 'home';
+
+  ///添加用户key
   static String addKey = 'add_key';
+
+  ///二维码扫描
   static String qrCodeScan = 'qr_code_scan';
+
+  ///设置手势密码
   static String setPsd = 'set_psd';
+
+  ///手势解锁
   static String gestureUnlock = 'gesture_unlock';
+
+  ///修改手势密码
   static String editPsd = 'edit_psd';
+
+  ///路由配置
   static Map<String, WidgetBuilder> routerConfig = {
     addCode: (context) => const AddCode(),
     home: (context) => const MyHomePage(title: ''),
@@ -33,6 +49,7 @@ class RouterConfig {
     editPsd: (context) => const EditPsd(),
   };
 
+  ///路由拦截器
   static Route onGenerateRoute<T extends Object>(RouteSettings settings) {
     return CupertinoPageRoute<T>(
       settings: settings,
@@ -60,6 +77,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: RouterConfig.onGenerateRoute,
+
+      ///初始加载路由界面
       initialRoute: RouterConfig.gestureUnlock,
     );
   }
