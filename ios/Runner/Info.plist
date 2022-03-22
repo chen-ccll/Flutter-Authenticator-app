@@ -47,9 +47,5 @@
     <true/>
     <key>NSCameraUsageDescription</key>
     <string>This app needs camera access to scan QR codes</string>
-		<!-- <key>NSCameraUsageDescription</key>
-    <string>访问相机</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>访问相册</string> -->
 </dict>
 </plist>
