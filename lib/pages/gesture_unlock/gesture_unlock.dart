@@ -37,6 +37,7 @@ class _GestureUnLockState extends State<GestureUnLock> {
         if (snapshot.hasError) return Text('Error: ${snapshot.error}');
         return GesturePasswordWidget(
           lineColor: const Color(0xff0C6BFE),
+          // lineColor: Colors.green,
           errorLineColor: const Color(0xffFB2E4E),
           singleLineCount: 3,
           identifySize: 80.0,
@@ -50,6 +51,7 @@ class _GestureUnLockState extends State<GestureUnLock> {
             Icons.adjust,
             size: 40,
             color: const Color(0xff0C6BFE),
+            // color: Colors.green,
           ),
           errorItem: Icon(
             Icons.adjust,
