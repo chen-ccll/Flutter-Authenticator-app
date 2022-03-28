@@ -31,15 +31,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ///读取商户列表文件
   void loadLists() async {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    final file = File(appDocPath + 'merchantList.json');
-    if (await file.exists()) {
-      final data = await file.readAsString();
-      final merList = jsonDecode(data);
-      setState(() {
-        merchantList = merList;
-      });
+    try {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String appDocPath = appDocDir.path;
+      final file = File(appDocPath + 'merchantList.json');
+      if (await file.exists()) {
+        final data = await file.readAsString();
+        final merList = json.decode(data);
+        setState(() {
+          merchantList = merList;
+        });
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
