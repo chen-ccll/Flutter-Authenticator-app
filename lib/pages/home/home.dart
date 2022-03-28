@@ -185,7 +185,6 @@ class _MyHomePageState extends State<MyHomePage> {
         width: MediaQuery.of(context).size.width / 2,
       ),
       appBar: AppBar(
-        // shadowColor: Colors.white,
         actions: [
           CustomPopupMenu(
             child: Container(
