@@ -2,11 +2,11 @@
 
 A flutter based 6 digit captcha validator
 
-## install
+## Install
 
 flutter pub get
 
-## start
+## Start
 
 flutter run
 
