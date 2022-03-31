@@ -38,17 +38,18 @@ class _EditPsdState extends State<EditPsd> {
       identifySize: 80.0,
       minLength: 4,
       normalItem: Icon(
-        Icons.panorama_fish_eye,
+        Icons.radio_button_unchecked,
         size: 40,
         color: Colors.white,
       ),
       selectedItem: Icon(
-        Icons.adjust,
+        Icons.radio_button_checked,
         size: 40,
         color: const Color(0xff0C6BFE),
+        // color: Colors.green,
       ),
       errorItem: Icon(
-        Icons.adjust,
+        Icons.radio_button_checked,
         size: 40,
         color: const Color(0xffFB2E4E),
       ),
@@ -71,17 +72,18 @@ class _EditPsdState extends State<EditPsd> {
       identifySize: 80.0,
       minLength: 4,
       normalItem: Icon(
-        Icons.panorama_fish_eye,
+        Icons.radio_button_unchecked,
         size: 40,
         color: Colors.white,
       ),
       selectedItem: Icon(
-        Icons.adjust,
+        Icons.radio_button_checked,
         size: 40,
         color: const Color(0xff0C6BFE),
+        // color: Colors.green,
       ),
       errorItem: Icon(
-        Icons.adjust,
+        Icons.radio_button_checked,
         size: 40,
         color: const Color(0xffFB2E4E),
       ),
