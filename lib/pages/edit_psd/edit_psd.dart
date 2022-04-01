@@ -120,6 +120,7 @@ class _EditPsdState extends State<EditPsd> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
+        elevation: 0,
         title: Text(
           flag ? '再次设置图案进行确认' : '设置新的解锁图案',
         ),
