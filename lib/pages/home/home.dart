@@ -175,7 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ItemModel('输入密钥', Icons.create, 'add_key'),
     ];
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[50],
       drawer: SizedBox(
         child: Drawer(
           child: drawer(context),
@@ -185,10 +185,14 @@ class _MyHomePageState extends State<MyHomePage> {
         width: MediaQuery.of(context).size.width / 2,
       ),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.grey[50],
+        iconTheme: IconThemeData(color: Colors.black),
+        bottomOpacity: 0,
         actions: [
           CustomPopupMenu(
             child: Container(
-              child: Icon(Icons.add, color: Colors.white),
+              child: Icon(Icons.add_circle_outline, color: Colors.black),
               padding: EdgeInsets.all(20),
             ),
             menuBuilder: () => ClipRRect(
