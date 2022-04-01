@@ -157,7 +157,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(
                   name,
                   // style: TextStyle(fontSize: 16),
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 98, 97, 97)),
                   textAlign: TextAlign.start,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -188,16 +190,17 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         title: Text(
           '首页',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Color.fromARGB(255, 98, 97, 97)),
         ),
         elevation: 0,
         backgroundColor: Color.fromRGBO(240, 242, 245, 1),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 98, 97, 97)),
         bottomOpacity: 0,
         actions: [
           CustomPopupMenu(
             child: Container(
-              child: Icon(Icons.add_circle_outline, color: Colors.black),
+              child: Icon(Icons.add_circle_outline,
+                  color: Color.fromARGB(255, 98, 97, 97)),
               padding: EdgeInsets.all(20),
             ),
             menuBuilder: () => ClipRRect(
