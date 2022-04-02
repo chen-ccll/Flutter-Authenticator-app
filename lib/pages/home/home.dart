@@ -198,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomOpacity: 0,
         actions: [
           CustomPopupMenu(
+            barrierColor: Colors.transparent,
             child: Container(
               child: Icon(Icons.add_circle_outline,
                   color: Color.fromARGB(255, 98, 97, 97)),
