@@ -188,20 +188,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          '首页',
-          style: TextStyle(color: Color.fromARGB(255, 98, 97, 97)),
-        ),
+        // title: Text(
+        //   '首页',
+        //   style: TextStyle(color: Color.fromARGB(255, 98, 97, 97)),
+        // ),
         elevation: 0,
-        backgroundColor: Color.fromRGBO(240, 242, 245, 1),
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 98, 97, 97)),
+        // backgroundColor: Color.fromRGBO(240, 242, 245, 1),
+        // iconTheme: IconThemeData(color: Color.fromARGB(255, 98, 97, 97)),
         bottomOpacity: 0,
         actions: [
           CustomPopupMenu(
             barrierColor: Colors.transparent,
             child: Container(
-              child: Icon(Icons.add_circle_outline,
-                  color: Color.fromARGB(255, 98, 97, 97)),
+              child: Icon(
+                Icons.add_circle_outline,
+                // color: Color.fromARGB(255, 98, 97, 97)
+                color: Colors.white,
+              ),
               padding: EdgeInsets.all(20),
             ),
             menuBuilder: () => ClipRRect(
