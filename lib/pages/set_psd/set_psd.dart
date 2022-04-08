@@ -146,7 +146,7 @@ class _SetPsdState extends State<SetPsd> {
               child: Column(
                 children: [
                   Text(
-                    flag ? '再次设置图案进行确认' : '设置解锁图案',
+                    flag ? '再次绘制图案进行确认' : '绘制解锁图案',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 22.0,
@@ -175,6 +175,16 @@ class _SetPsdState extends State<SetPsd> {
                   ? createNormalGesturePasswordView2()
                   : createNormalGesturePasswordView(),
             ),
+            if (flag)
+              TextButton(
+                child: Text('重新绘制'),
+                onPressed: () {
+                  setState(() {
+                    flag = false;
+                    _hasError = false;
+                  });
+                },
+              )
           ],
         ),
       ),

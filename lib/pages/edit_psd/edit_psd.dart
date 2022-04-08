@@ -97,7 +97,7 @@ class _EditPsdState extends State<EditPsd> {
           prefs.setString('psd', psd);
           Navigator.of(context).pushReplacementNamed('home');
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('修改成功'),
+            content: Text('手势密码修改成功'),
             backgroundColor: Colors.green,
             duration: Duration(milliseconds: 1500),
           ));
@@ -120,9 +120,10 @@ class _EditPsdState extends State<EditPsd> {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: !flag,
         elevation: 0,
         title: Text(
-          flag ? '再次设置图案进行确认' : '设置新的解锁图案',
+          flag ? '再次绘制图案进行确认' : '绘制新的解锁图案',
         ),
         centerTitle: true,
         backgroundColor: backgroundColor,
@@ -154,6 +155,16 @@ class _EditPsdState extends State<EditPsd> {
                   ? createNormalGesturePasswordView2()
                   : createNormalGesturePasswordView(),
             ),
+            if (flag)
+              TextButton(
+                child: Text('重新绘制'),
+                onPressed: () {
+                  setState(() {
+                    flag = false;
+                    _hasError = false;
+                  });
+                },
+              )
           ],
         ),
       ),

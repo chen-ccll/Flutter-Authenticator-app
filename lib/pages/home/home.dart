@@ -7,7 +7,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   CustomPopupMenuController _controller = CustomPopupMenuController();
   late List<ItemModel> menuItems;
   List merchantList = [];
-  // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   ///读取商户列表文件
   void loadLists() async {
@@ -223,9 +223,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               if (item.path == 'add_key') {
                                 Navigator.of(context).pushNamed('add_key');
                               } else {
-                                // final SharedPreferences prefs = await _prefs;
-                                // prefs.setString('isSetPsd', 'false');
-                                Navigator.of(context).pushNamed('qr_code_scan');
+                                final SharedPreferences prefs = await _prefs;
+                                prefs.setString('isSetPsd', 'false');
+                                // Navigator.of(context).pushNamed('qr_code_scan');
                               }
                             },
                             child: Container(
