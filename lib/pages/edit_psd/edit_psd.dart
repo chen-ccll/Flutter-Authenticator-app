@@ -25,12 +25,11 @@ class _EditPsdState extends State<EditPsd> {
   late List<int> _psd;
 
   ///第二次密码是否错误
-  bool _hasError = false;
+  String _hasError = '';
 
   ///控制第二次设置密码
   bool flag = false;
   Widget createNormalGesturePasswordView() {
-    // print(_psd);
     return GesturePasswordWidget(
       lineColor: const Color(0xff0C6BFE),
       errorLineColor: const Color(0xffFB2E4E),
@@ -46,7 +45,6 @@ class _EditPsdState extends State<EditPsd> {
         Icons.radio_button_checked,
         size: 40,
         color: const Color(0xff0C6BFE),
-        // color: Colors.green,
       ),
       errorItem: Icon(
         Icons.radio_button_checked,
@@ -55,10 +53,20 @@ class _EditPsdState extends State<EditPsd> {
       ),
       color: backgroundColor,
       onComplete: (data) {
-        // _psd = data;
-        _psd = List.from(data);
+        if (data.length > 4) {
+          _psd = List.from(data);
+          setState(() {
+            flag = true;
+          });
+        } else {
+          setState(() {
+            _hasError = '密码至少连接4个点';
+          });
+        }
+      },
+      onHitPoint: () {
         setState(() {
-          flag = true;
+          _hasError = '';
         });
       },
     );
@@ -103,13 +111,13 @@ class _EditPsdState extends State<EditPsd> {
           ));
         } else {
           setState(() {
-            _hasError = true;
+            _hasError = '两次图案不一致';
           });
         }
       },
       onHitPoint: () {
         setState(() {
-          _hasError = false;
+          _hasError = '';
         });
       },
     );
@@ -139,7 +147,7 @@ class _EditPsdState extends State<EditPsd> {
                   SizedBox(
                     height: 30,
                     child: Text(
-                      _hasError ? '两次图案不一致' : '',
+                      _hasError,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 18.0,
@@ -161,7 +169,7 @@ class _EditPsdState extends State<EditPsd> {
                 onPressed: () {
                   setState(() {
                     flag = false;
-                    _hasError = false;
+                    _hasError = '';
                   });
                 },
               )

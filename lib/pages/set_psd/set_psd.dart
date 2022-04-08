@@ -25,12 +25,11 @@ class _SetPsdState extends State<SetPsd> {
   late List<int> _psd;
 
   ///第二次密码是否错误
-  bool _hasError = false;
+  String _hasError = '';
 
   ///控制第二次设置密码
   bool flag = false;
   Widget createNormalGesturePasswordView() {
-    // print(_psd);
     return GesturePasswordWidget(
       lineColor: const Color(0xff0C6BFE),
       errorLineColor: const Color(0xffFB2E4E),
@@ -46,7 +45,6 @@ class _SetPsdState extends State<SetPsd> {
         Icons.radio_button_checked,
         size: 40,
         color: const Color(0xff0C6BFE),
-        // color: Colors.green,
       ),
       errorItem: Icon(
         Icons.radio_button_checked,
@@ -55,28 +53,32 @@ class _SetPsdState extends State<SetPsd> {
       ),
       color: backgroundColor,
       onComplete: (data) {
-        // _psd = data;
-        _psd = List.from(data);
+        if (data.length > 4) {
+          _psd = List.from(data);
+          setState(() {
+            flag = true;
+          });
+        } else {
+          setState(() {
+            _hasError = '密码至少连接4个点';
+          });
+        }
+      },
+      onHitPoint: () {
         setState(() {
-          flag = true;
+          _hasError = '';
         });
       },
     );
   }
 
   Widget createNormalGesturePasswordView2() {
-    // print(_psd);
     return GesturePasswordWidget(
       lineColor: const Color(0xff0C6BFE),
       errorLineColor: const Color(0xffFB2E4E),
       singleLineCount: 3,
       identifySize: 80.0,
       minLength: 4,
-      // errorItem: Image.asset(
-      //   'images/error.png',
-      //   color: const Color(0xffFB2E4E),
-      // ),
-      // normalItem: Image.asset('images/normal.png'),
       normalItem: Icon(
         Icons.radio_button_unchecked,
         size: 40,
@@ -93,20 +95,6 @@ class _SetPsdState extends State<SetPsd> {
         size: 40,
         color: const Color(0xffFB2E4E),
       ),
-      // arrowItem: Image.asset(
-      //   'images/arrow.png',
-      //   width: 20.0,
-      //   height: 20.0,
-      //   color: const Color(0xff0C6BFE),
-      //   fit: BoxFit.fill,
-      // ),
-      // errorArrowItem: Image.asset(
-      //   'images/arrow.png',
-      //   width: 20.0,
-      //   height: 20.0,
-      //   fit: BoxFit.fill,
-      //   color: const Color(0xffFB2E4E),
-      // ),
       answer: _psd,
       color: backgroundColor,
       onComplete: (data) async {
@@ -118,13 +106,13 @@ class _SetPsdState extends State<SetPsd> {
           Navigator.of(context).pushReplacementNamed('home');
         } else {
           setState(() {
-            _hasError = true;
+            _hasError = '两次密码不一致';
           });
         }
       },
       onHitPoint: () {
         setState(() {
-          _hasError = false;
+          _hasError = '';
         });
       },
     );
@@ -159,7 +147,7 @@ class _SetPsdState extends State<SetPsd> {
                   SizedBox(
                     height: 30,
                     child: Text(
-                      _hasError ? '两次图案不一致' : '',
+                      _hasError,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 18.0,
@@ -181,7 +169,7 @@ class _SetPsdState extends State<SetPsd> {
                 onPressed: () {
                   setState(() {
                     flag = false;
-                    _hasError = false;
+                    _hasError = '';
                   });
                 },
               )
