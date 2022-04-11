@@ -90,7 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListView(
       children: [
         ListTile(
-          title: const Text('修改手势密码'),
+          title: const Text(
+            '修改手势密码',
+            style: TextStyle(color: Colors.blue),
+          ),
           onTap: () {
             Navigator.of(context).pushNamed('edit_psd');
           },
@@ -123,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 merchantList = merchantList;
               });
             },
-            nestedAction: SwipeNestedAction(title: "确认删除"),
-            title: "删除",
+            nestedAction: SwipeNestedAction(title: "确认移除"),
+            title: "移除",
             color: Colors.red,
           )
         ],
@@ -133,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Navigator.of(context).pushNamed("add_code", arguments: key);
           },
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(15),
             decoration: const BoxDecoration(
                 border: Border(
                     bottom: BorderSide(
@@ -198,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
         bottomOpacity: 0,
         actions: [
           CustomPopupMenu(
-            barrierColor: Colors.transparent,
+            // barrierColor: Colors.transparent,
             child: Container(
               child: Icon(
                 Icons.add_circle_outline,
@@ -210,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
             menuBuilder: () => ClipRRect(
               borderRadius: BorderRadius.circular(5),
               child: Container(
-                color: const Color(0xFF4C4C4C),
+                color: Colors.white,
                 child: IntrinsicWidth(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -229,10 +232,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               }
                             },
                             child: Container(
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
-                                color: Colors.white,
+                                color: item.path != 'add_key'
+                                    ? Colors.blue
+                                    : Colors.white,
                                 width: 0.3,
                               ))),
                               padding: EdgeInsets.symmetric(
@@ -242,17 +247,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                   Icon(
                                     item.icon,
                                     size: 16,
-                                    color: Colors.white,
+                                    color: Colors.blue,
                                   ),
                                   Expanded(
                                     child: Container(
                                       margin: EdgeInsets.only(left: 8),
-                                      // padding:
-                                      //     EdgeInsets.symmetric(vertical: 10),
                                       child: Text(
                                         item.title,
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.blue,
                                           fontSize: 12,
                                         ),
                                       ),

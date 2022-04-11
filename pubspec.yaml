@@ -19,6 +19,7 @@ dependencies:
   flutter_swipe_action_cell: ^2.2.0
   custom_pop_up_menu: ^1.2.3+1
   gesture_password_widget: ^2.0.0
+  encrypt: ^5.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

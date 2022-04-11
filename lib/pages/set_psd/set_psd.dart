@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:gesture_password_widget/gesture_password_widget.dart';
+// import 'package:encrypt/encrypt.dart' as enCrypt;
 
 class SetPsd extends StatefulWidget {
   const SetPsd({
@@ -101,6 +102,13 @@ class _SetPsdState extends State<SetPsd> {
         if (data.join('') == _psd.join('')) {
           var psd = _psd.join('');
           final SharedPreferences prefs = await _prefs;
+          // final key = enCrypt.Key.fromUtf8('AiP9h1GxDR38I1C9HzET1UCWqOUETxqv');
+          // final iv = enCrypt.IV.fromLength(16);
+          // final encrypter = enCrypt.Encrypter(enCrypt.AES(key));
+          // final encrypted = encrypter.encrypt(psd, iv: iv);
+          // final decrypted = encrypter.decrypt(encrypted, iv: iv);
+          // print(decrypted);
+          // print(encrypted.base64);
           prefs.setString('isSetPsd', 'true');
           prefs.setString('psd', psd);
           Navigator.of(context).pushReplacementNamed('home');
